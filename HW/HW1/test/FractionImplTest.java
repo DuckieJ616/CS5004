@@ -2,9 +2,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Unit tests for {@link FractionImpl}.
+ * <p>
+ * Covers constructor behavior, normalization, arithmetic, comparison, and exceptions.
+ * </p>
+ */
 @DisplayName("FractionImpl JUnit5 Tests")
 class FractionImplTest {
 
+  /** Tests constructor normalization and reduction. */
   @Test
   void constructor_normalizesAndReduces() {
     Fraction f1 = new FractionImpl(4, 2);
@@ -14,29 +21,26 @@ class FractionImplTest {
 
     Fraction f2 = new FractionImpl(-6, -9);
     assertEquals(2, f2.getNumerator());
-
     assertEquals(3, f2.getDenominator());
     assertEquals("2 / 3", f2.toString());
 
     Fraction f3 = new FractionImpl(0, 5);
-    assertEquals(0, f3.getNumerator());
-    assertEquals(1, f3.getDenominator());
     assertEquals("0 / 1", f3.toString());
   }
 
+  /** Denominator == 0 should throw IllegalArgumentException. */
   @Test
   void constructor_rejectsNonPositiveDenominator() {
     assertThrows(IllegalArgumentException.class, () -> new FractionImpl(1, 0));
   }
 
+  /** Tests setters and normalization. */
   @Test
   void setters_preserveInvariantAndReduce() {
     Fraction f = new FractionImpl(3, 9);
     assertEquals("1 / 3", f.toString());
 
     f.setNumerator(-2);
-    assertEquals(-2, f.getNumerator());
-    assertEquals(3, f.getDenominator());
     assertEquals("-2 / 3", f.toString());
 
     f.setDenominator(6);
@@ -46,6 +50,7 @@ class FractionImplTest {
     assertThrows(IllegalArgumentException.class, () -> f.setDenominator(-10));
   }
 
+  /** Tests toDouble calculation. */
   @Test
   void toDouble_basic() {
     Fraction f = new FractionImpl(1, 4);
@@ -55,6 +60,7 @@ class FractionImplTest {
     assertEquals(-0.5, g.toDouble(), 1e-12);
   }
 
+  /** Tests string formatting and sign normalization. */
   @Test
   void toString_simplestFormAndSign() {
     assertEquals("2 / 1", new FractionImpl(10, 5).toString());
@@ -63,32 +69,23 @@ class FractionImplTest {
     assertEquals("0 / 1", new FractionImpl(0, 7).toString());
   }
 
+  /** Tests reciprocal including exception on zero. */
   @Test
   void reciprocal_typicalAndZero() {
-    Fraction f = new FractionImpl(2, 3);
-    assertEquals("3 / 2", f.reciprocal().toString());
-
-    Fraction g = new FractionImpl(-4, 5);
-    assertEquals("-5 / 4", g.reciprocal().toString());
-
-    Fraction z = new FractionImpl(0, 3);
-    assertThrows(ArithmeticException.class, z::reciprocal);
+    assertEquals("3 / 2", new FractionImpl(2, 3).reciprocal().toString());
+    assertEquals("-5 / 4", new FractionImpl(-4, 5).reciprocal().toString());
+    assertThrows(ArithmeticException.class, () -> new FractionImpl(0, 3).reciprocal());
   }
 
+  /** Tests add with different denominators and signs. */
   @Test
   void add_commonAndDifferentDenoms() {
-    Fraction a = new FractionImpl(1, 3);
-    Fraction b = new FractionImpl(1, 6);
-    assertEquals("1 / 2", a.add(b).toString());
-
-    Fraction c = new FractionImpl(-1, 2);
-    Fraction d = new FractionImpl(1, 3);
-    assertEquals("-1 / 6", c.add(d).toString());
-
-    Fraction e = new FractionImpl(0, 5);
-    assertEquals("1 / 3", e.add(new FractionImpl(1, 3)).toString());
+    assertEquals("1 / 2", new FractionImpl(1, 3).add(new FractionImpl(1, 6)).toString());
+    assertEquals("-1 / 6", new FractionImpl(-1, 2).add(new FractionImpl(1, 3)).toString());
+    assertEquals("1 / 3", new FractionImpl(0, 5).add(new FractionImpl(1, 3)).toString());
   }
 
+  /** Tests overflow protection in add. */
   @Test
   void add_overflowProtection() {
     Fraction big1 = new FractionImpl(Integer.MAX_VALUE, 1);
@@ -96,6 +93,7 @@ class FractionImplTest {
     assertThrows(ArithmeticException.class, () -> big1.add(small));
   }
 
+  /** Tests compareTo. */
   @Test
   void compareTo_various() {
     Fraction a = new FractionImpl(1, 2);
@@ -105,11 +103,10 @@ class FractionImplTest {
     assertTrue(a.compareTo(b) < 0);
     assertEquals(0, a.compareTo(c));
     assertTrue(b.compareTo(a) > 0);
-
-    Fraction neg = new FractionImpl(-1, 4);
-    assertTrue(neg.compareTo(a) < 0);
+    assertTrue(new FractionImpl(-1, 4).compareTo(a) < 0);
   }
 
+  /** Tests equals and hashCode consistency. */
   @Test
   void equalsAndHashCode_consistentWithCanonicalForm() {
     Fraction x = new FractionImpl(2, 4);

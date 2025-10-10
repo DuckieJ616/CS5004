@@ -1,12 +1,26 @@
 import java.util.Objects;
 
+/**
+ * Concrete implementation of {@link Fraction}.
+ * <p>
+ * Fractions are always normalized so that denominators are positive and
+ * values are stored in lowest terms using the Euclidean GCD algorithm.
+ * </p>
+ */
 public class FractionImpl implements Fraction {
   private int numerator;
   private int denominator;
 
+  /**
+   * Constructs a new FractionImpl.
+   *
+   * @param numerator   numerator (may be negative, zero, or positive)
+   * @param denominator denominator (must not be zero)
+   * @throws IllegalArgumentException if denominator == 0
+   */
   public FractionImpl(int numerator, int denominator) {
     if (denominator == 0) {
-      throw new IllegalArgumentException("Denominator must be != 0");
+      throw new IllegalArgumentException("Denominator must not be zero");
     }
     this.numerator = numerator;
     this.denominator = denominator;
@@ -32,7 +46,7 @@ public class FractionImpl implements Fraction {
   @Override
   public void setDenominator(int d) {
     if (d <= 0) {
-      throw new IllegalArgumentException("Denominator must be > 0");
+      throw new IllegalArgumentException("Denominator must be positive");
     }
     this.denominator = d;
     normalizeAndReduce();
@@ -43,6 +57,12 @@ public class FractionImpl implements Fraction {
     return (double) numerator / (double) denominator;
   }
 
+  /**
+   * Returns the string representation of this fraction in simplest form.
+   * <p>Format: "numerator / denominator".</p>
+   *
+   * @return simplified string representation
+   */
   @Override
   public String toString() {
     return String.format("%d / %d", numerator, denominator);
@@ -65,8 +85,10 @@ public class FractionImpl implements Fraction {
     long b = this.denominator;
     long c = other.getNumerator();
     long d = other.getDenominator();
+
     long newNum = a * d + b * c;
     long newDen = b * d;
+
     if (newNum > Integer.MAX_VALUE || newNum < Integer.MIN_VALUE || newDen > Integer.MAX_VALUE) {
       throw new ArithmeticException("Integer overflow when adding fractions");
     }
@@ -76,11 +98,19 @@ public class FractionImpl implements Fraction {
   @Override
   public int compareTo(Fraction other) {
     Objects.requireNonNull(other, "other");
-    long left = (long) this.numerator * (long) other.getDenominator();
-    long right = (long) other.getNumerator() * (long) this.denominator;
+    long left = (long) this.numerator * other.getDenominator();
+    long right = (long) other.getNumerator() * this.denominator;
     return Long.compare(left, right);
   }
 
+  /**
+   * Normalizes the fraction:
+   * <ul>
+   *   <li>Denominator becomes positive.</li>
+   *   <li>Sign is carried by numerator only.</li>
+   *   <li>Fraction reduced to lowest terms using gcd.</li>
+   * </ul>
+   */
   private void normalizeAndReduce() {
     if (numerator == 0) {
       denominator = 1;
@@ -95,10 +125,11 @@ public class FractionImpl implements Fraction {
     denominator /= g;
   }
 
+  /**
+   * Computes gcd using Euclid's recursive algorithm.
+   */
   private static int gcd(int a, int b) {
-    if (b == 0) {
-      return a;
-    }
+    if (b == 0) return a;
     return gcd(b, a % b);
   }
 
