@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/CS5004.iml" filepath="$PROJECT_DIR$/.idea/CS5004.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW/HW.iml" filepath="$PROJECT_DIR$/HW/HW.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Labs/Lab0/Lab0.iml" filepath="$PROJECT_DIR$/Labs/Lab0/Lab0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Labs/Lab2/Lab2.iml" filepath="$PROJECT_DIR$/Labs/Lab2/Lab2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Labs/Lab3/Lab3.iml" filepath="$PROJECT_DIR$/Labs/Lab3/Lab3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Labs/Lab4/Lab4.iml" filepath="$PROJECT_DIR$/Labs/Lab4/Lab4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Labs/Lab5/Lab5.iml" filepath="$PROJECT_DIR$/Labs/Lab5/Lab5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Labs/Lab1/src/main/main.iml" filepath="$PROJECT_DIR$/Labs/Lab1/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pets-1/pets-1.iml" filepath="$PROJECT_DIR$/pets-1/pets-1.iml" />
     </modules>
   </component>
 </project>
