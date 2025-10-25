@@ -1,0 +1,93 @@
+Final Project：Elevator Pitch & Object List
+Team: Xinyi Jiang; Teammate: TBD
+
+1. IDEA 
+idea A:“Smart Food Delivery (Java + OOP, optional AI add-on)”
+
+Elevator Pitch:
+
+We’re building a simplified food-delivery platform connecting Customers–Restaurants–Riders with end-to-end order flow.
+
+Focus: clean OOP design, collections/algorithms, and a state machine for order lifecycle (Created-Accepted-Delivering-Delivered/Cancelled).
+
+Value: realistic domain modeling (inventory, pricing, dispatch), clear separation of concerns, and testable business logic.
+
+Differentiator: optional AI helper (via an interface) for “smart recommend” or “menu Q&A,” implemented first as a mock, later swappable for a real API.
+
+Next step: build monolith first; if time permits, extract modules (Order/Restaurant/Dispatch) with clear interfaces.
+
+Very Rough Object / Class List
+
+User (id, name, role[Customer/Owner/Rider])
+
+Customer (extends User)
+
+Rider (extends User, vehicleType, currentLocation)
+
+Restaurant (id, name, address, rating, menu: List<MenuItem>)
+
+MenuItem (id, name, price, inventory, tags: Set<String>)
+
+Cart (items: List<CartItem>; totalPrice())
+
+Order (id, customer, restaurant, items, totalPrice, status[CREATED, ACCEPTED, PICKED_UP, DELIVERING, DELIVERED, CANCELED], timestamps)
+
+Payment (orderId, method, amount, status)
+
+DispatchService (assign rider: nearest/least-load)
+
+InventoryService (reserve/release stock)
+
+OrderService (create, updateStatus, getById)
+
+RecommendationService (rank by sales/rating/distance)
+
+AIService (interface) → MockAIService (optional; smartRecommend(query))
+
+Repositories (in-memory): OrderRepository, RestaurantRepository, etc. (Map/List based)
+
+
+
+idea B:“Java Chatbot (Rule-First, API-Ready)”
+
+Elevator Pitch: 
+
+A lightweight Java chatbot that supports greetings, FAQs, and keyword intents using rules, with history-aware responses.
+
+Focus: OOP design (Chatbot, Message, Rule, Engine), data structures (Map, List), and clean interfaces.
+
+Value: easy demo in CLI; clear domain modeling and extendability.
+
+Differentiator: a pluggable NLP/LLM adapter interface that starts as a mock; can later call a real external API.
+
+Next step: deliver rule-based MVP first; then add synonym dictionary and simple scoring.
+
+Very Rough Object / Class List
+
+User (id, name)
+
+Message (sender, content, timestamp)
+
+Conversation (messages: List<Message>)
+
+Rule (pattern/keywords, responseTemplate, priority)
+
+InferenceEngine (match rules, select best response)
+
+KnowledgeBase (Map<Intent, List<Rule>>)
+
+Chatbot (handleInput, generateResponse)
+
+NLPService (interface) → MockNLPService (optional; intent extraction)
+
+Storage (in-memory logs; export session)
+
+
+2. Teaming Status
+
+Partner: TBD (actively discussing with classmates).
+
+
+3. Notes
+
+Many details (classes/fields/methods) will evolve during implementation; this is an initial draft.
